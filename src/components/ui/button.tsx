@@ -1,0 +1,46 @@
+import type { ButtonHTMLAttributes } from 'react';
+import { cn } from '@/lib/cn';
+
+type ButtonVariant = 'primary' | 'secondary' | 'ghost';
+type ButtonSize = 'sm' | 'md' | 'lg';
+
+// Uses the brand tokens defined in globals.css @theme:
+//   accent / accent-foreground / surface / text / muted / border
+const variantClasses: Record<ButtonVariant, string> = {
+  primary: 'bg-accent text-accent-foreground hover:opacity-90 disabled:opacity-50',
+  secondary:
+    'border-border bg-surface text-text border hover:border-accent hover:text-accent disabled:opacity-50',
+  ghost: 'text-muted hover:text-text disabled:opacity-50',
+};
+
+const sizeClasses: Record<ButtonSize, string> = {
+  sm: 'px-4 py-2 text-sm',
+  md: 'px-5 py-3 text-sm',
+  lg: 'px-8 py-4 text-base',
+};
+
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+}
+
+export function Button({
+  className,
+  variant = 'primary',
+  size = 'md',
+  type = 'button',
+  ...props
+}: ButtonProps) {
+  return (
+    <button
+      type={type}
+      className={cn(
+        'focus-visible:ring-accent/30 inline-flex items-center justify-center gap-2 font-medium whitespace-nowrap transition-colors focus-visible:ring-2 focus-visible:outline-none disabled:cursor-not-allowed',
+        variantClasses[variant],
+        sizeClasses[size],
+        className
+      )}
+      {...props}
+    />
+  );
+}

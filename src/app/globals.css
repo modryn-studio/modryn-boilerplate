@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+/* Neutral dark starter palette — recolor per project before polishing UI
+   (the frontend-design skill is the right tool for that pass).
+   Tailwind v4: tokens live in @theme (NOT :root) so utilities like bg-surface,
+   text-muted, border-border are generated. Never add a tailwind.config file. */
+@theme {
+  --color-bg: #0a0a0a;                /* page background */
+  --color-surface: #161616;           /* panels, cards */
+  --color-border: #262626;            /* subtle borders, dividers */
+  --color-text: #ededed;              /* body text */
+  --color-muted: #8a8a8a;             /* secondary text, placeholders */
+  --color-accent: #3b82f6;            /* brand / primary CTA — TODO: replace */
+  --color-accent-foreground: #ffffff; /* text on an accent background */
+  --font-heading: system-ui;
+}
+
+@layer base {
+  html {
+    @apply bg-bg text-text;
+  }
+}
