@@ -56,6 +56,22 @@ export async function POST(req: Request): Promise<Response> {
 - `src/app/layout.tsx` sets `robots: { index: false }` — prototypes stay out of search indexes. Remove that when a project genuinely goes public.
 - `.vscode/` ships `formatOnSave` + Prettier and a `Run dev server` build task (pipes to `dev.log`).
 
+## README Banner
+
+`npm run generate-banner` → writes `public/brand/banner.png` (1280×320) via Satori (JSX → SVG → PNG with proper font rendering).
+
+**Process every project — do not skip:**
+
+1. Drop logomark at `public/brand/logomark.png` (1024×1024, transparent background)
+2. Invoke Rams (`modryn-hq/team/system-prompts/dieter-rams.md`) for a banner spec: font family, weights, mark size, tagline copy, color assignments
+3. Update `scripts/generate-banner.mjs` BANNER CONFIG block with the spec values
+4. `npm install --save-dev @fontsource/<your-font>` — Google Fonts always serves WOFF2; Satori needs WOFF; @fontsource ships both
+5. `npm run generate-banner`
+
+Never use ImageMagick to generate the banner — Arial-Bold text rendering is the wrong register for every Modryn product.
+
+---
+
 ## Adding Common Capabilities (when needed, not before)
 
 - **Database:** Drizzle + Neon/Postgres. Add `DATABASE_URL` to `env.ts`, create `src/lib/db.ts`.
