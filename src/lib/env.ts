@@ -6,7 +6,10 @@ import { z } from 'zod';
 const schema = z.object({
   NEXT_PUBLIC_SITE_URL: z.string().url().optional(),
 
-  // Add prototype keys as the product grows, e.g.:
+  // Required for generative UI routes (streamText, useChat)
+  ANTHROPIC_API_KEY: z.string().min(1, 'ANTHROPIC_API_KEY is required'),
+
+  // Add project keys below, e.g.:
   //   MARKET_DATA_API_KEY: z.string().min(1, 'MARKET_DATA_API_KEY is required'),
 });
 

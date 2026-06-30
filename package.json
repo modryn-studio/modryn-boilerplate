@@ -11,6 +11,9 @@
     "generate-banner": "node scripts/generate-banner.mjs"
   },
   "dependencies": {
+    "@ai-sdk/anthropic": "^4.0.2",
+    "@ai-sdk/react": "^4.0.8",
+    "ai": "^7.0.5",
     "babel-plugin-react-compiler": "^1.0.0",
     "clsx": "^2.1.1",
     "lucide-react": "^1.21.0",

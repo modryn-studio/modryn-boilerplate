@@ -17,7 +17,7 @@ Lean Next.js starter for Modryn prototypes. The philosophy: ship the smallest th
 
 ## Stack
 
-Next.js 16 (App Router) + React 19 · TypeScript · Tailwind CSS v4 · Vercel. React Compiler is on (`reactCompiler: true`). Designed to deploy to the auto-generated `*.vercel.app` URL — no custom domain assumed.
+Next.js 16 (App Router) + React 19 · TypeScript · Tailwind CSS v4 · Vercel · **Vercel AI SDK** (`ai` + `@ai-sdk/anthropic` + `@ai-sdk/react`). React Compiler is on (`reactCompiler: true`). Designed to deploy to the auto-generated `*.vercel.app` URL — no custom domain assumed.
 
 ## Structure
 
@@ -69,6 +69,67 @@ export async function POST(req: Request): Promise<Response> {
 5. `npm run generate-banner`
 
 Never use ImageMagick to generate the banner — Arial-Bold text rendering is the wrong register for every Modryn product.
+
+---
+
+## Generative UI Architecture
+
+**AI SDK v7 pattern.** `streamUI` is deprecated — never use it. Current approach: `streamText()` with tools + client-side `message.parts` rendering.
+
+```typescript
+// API route — required boilerplate for SSE routes
+export const dynamic = 'force-dynamic';  // prevents SSE caching
+
+export async function POST(req: Request) {
+  const result = streamText({  // no await
+    model: anthropic('claude-opus-4-8'),  // judgment tasks; use sonnet-4-6 for fast extraction
+    system: SYSTEM_PROMPT,
+    messages: [{ role: 'user', content: req_body }],
+    tools: {
+      render_something: {
+        description: '...',
+        inputSchema: z.object({ ... }),  // inputSchema, NOT parameters
+        execute: async (args) => args,
+      },
+    },
+  });
+  return result.toUIMessageStreamResponse();  // NOT toDataStreamResponse()
+}
+```
+
+```typescript
+// Client — useChat from '@ai-sdk/react' (separate package from 'ai')
+import { useChat } from '@ai-sdk/react';
+import { DefaultChatTransport } from 'ai';
+
+const { messages, sendMessage, status } = useChat({
+  transport: new DefaultChatTransport({ api: '/api/my-route', body: extraData }),
+});
+
+// Trigger without user input:
+useEffect(() => {
+  if (!triggered.current && status === 'ready') {
+    triggered.current = true;
+    sendMessage({ text: 'go' });  // sendMessage(), not append()
+  }
+}, [status, sendMessage]);
+
+// Render parts:
+lastMessage?.parts?.map((part, i) => {
+  if (part.type === 'text') return <StreamingText key={i} text={part.text} />;
+  if (part.type === 'dynamic-tool' && part.state === 'output-available') {
+    // part.type is 'dynamic-tool', NOT 'tool-invocation'
+    // part.state is 'output-available', NOT 'result'
+    // part.output has the result, NOT part.toolInvocation.result
+    const output = part.output as Record<string, unknown>;
+    if (part.toolName === 'render_something') return <MyComponent key={i} {...output} />;
+  }
+});
+```
+
+The `.cursor-blink` CSS class (in `globals.css`) renders a blinking `|` cursor during streaming.
+
+**Model selection:** `claude-opus-4-8` for reasoning/generation. `claude-sonnet-4-6` for fast structured extraction.
 
 ---
 
