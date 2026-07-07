@@ -4,6 +4,21 @@ Lean Next.js starter for Modryn prototypes. The philosophy: ship the smallest th
 
 ---
 
+## Operating Rules (inherited by every project from this boilerplate)
+
+How we build — distilled from how Anthropic and top operators use Claude Code. Keep these in every project's CLAUDE.md.
+
+- **This file is owned like code. Keep it under ~200 lines.** Thin, reviewed, current — if a rule stops being true, change it in the same commit as the code that made it false.
+- **Disposable prototypes:** build fast, judge by feel, build variants (branch-per-variant), keep the one that sings, throw the rest away. Don't fall in love.
+- **Vibe-code the prototype, engineer the production version.** The differentiation and the hard part live in the backend — real auth, object-level permissions (a role on a resource, not an `isAdmin` bool), jobs that retry and get monitored. Slow down deliberately on critical paths.
+- **Split doing from judging.** A separate review pass/agent — never let the author grade its own homework.
+- **Plan-annotate loop:** ask for a plan with zero implementation → mark up every wrong thing → "address notes, don't implement yet" → repeat to convergence → *then* build.
+- **Parallel or variant work uses git worktrees / branch-per-variant** so concurrent sessions never collide on the same files.
+- **Model routing:** Sonnet for the grind, Opus for judgment (scoping, review, big decisions); reserve Fable for rare long-horizon autonomous work.
+- **Full doctrine:** `modryn-hq/playbooks/build-process.md` + `year-five-doctrine.md` (build the five-years-out version today; the moat is depth a cloner can't replicate in a week).
+
+---
+
 ## Starting a New Project From This Boilerplate
 
 1. Copy this folder to the new project location (or `git clone` then reset history).
