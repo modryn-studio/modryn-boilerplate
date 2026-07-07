@@ -14,6 +14,7 @@ How we build — distilled from how Anthropic and top operators use Claude Code.
 - **Split doing from judging.** A separate review pass/agent — never let the author grade its own homework.
 - **Plan-annotate loop:** ask for a plan with zero implementation → mark up every wrong thing → "address notes, don't implement yet" → repeat to convergence → *then* build.
 - **Parallel or variant work uses git worktrees / branch-per-variant** so concurrent sessions never collide on the same files.
+- **Read live competitors.** Drive real products with the `chrome-devtools-mcp` CLI (installed globally on this machine) per `modryn-hq/playbooks/read-live-competitor.md` — for recon and to pull real UI to clone / remix / reference. Landing/pricing pages need no auth; Luke logs in by hand for the app itself.
 - **Model routing:** Sonnet for the grind, Opus for judgment (scoping, review, big decisions); reserve Fable for rare long-horizon autonomous work.
 - **Full doctrine:** `modryn-hq/playbooks/build-process.md` + `year-five-doctrine.md` (build the five-years-out version today; the moat is depth a cloner can't replicate in a week).
 
