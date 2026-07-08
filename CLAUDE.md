@@ -18,6 +18,8 @@ How we build — distilled from how Anthropic and top operators use Claude Code.
 - **UI/UX bar — no vibe-code default.** Read `modryn-hq/playbooks/ui-ux-standards.md` before designing any surface. Hard bans: framework-default font as brand (Geist/Inter), violet gradient CTAs, gradient text / glow blobs / glassmorphism, pill-everything, emoji as UI. If it looks like default LLM output, it's rejected.
 - **Model routing:** Sonnet for the grind, Opus for judgment (scoping, review, big decisions); reserve Fable for rare long-horizon autonomous work.
 - **Full doctrine:** `modryn-hq/playbooks/build-process.md` + `year-five-doctrine.md` (build the five-years-out version today; the moat is depth a cloner can't replicate in a week).
+- **Document lean.** A disposable prototype needs only: this CLAUDE.md (thesis / state / pointers, kept current like code), the code (commented design tokens = self-documenting craft), and the playbooks it points to. Don't fill `context.md` / `brand.md` during throwaway iteration — they earn their place at the real-build phase.
+- **Both modes, always.** Every prototype ships a dark and a light mode with a persisting toggle (default to the brand fit). See `modryn-hq/playbooks/ui-ux-standards.md`.
 
 ---
 
