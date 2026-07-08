@@ -85,11 +85,12 @@ git add -A
 git commit -m "init"
 git remote add origin "https://github.com/modryn-studio/<project-name>"
 git push -u origin main
-git checkout -b dev
-git push -u origin dev
 ```
 
-From this point: **never commit directly to `main`**. Build on `dev`. PR to `main` = a release.
+From this point: **never commit directly to `main`** — it stays the clean scaffold. Create a new
+branch named for what you're building (`git checkout -b <slug>`) and build there. Later iterations
+that don't change the prototype's shape are git worktrees off that branch; only cut a new branch
+when the direction genuinely changes.
 
 ---
 
@@ -118,7 +119,7 @@ Open `http://localhost:3000` — you should see the project name heading on a da
 
 ## What you have at this point
 
-- `main` and `dev` branches on GitHub, current with the boilerplate
+- `main` branch on GitHub, current with the boilerplate
 - `node_modules` installed, `ANTHROPIC_API_KEY` set
 - Dev server running at `localhost:3000`
 - `context.md` and `brand.md` are stubs — fill these before building anything

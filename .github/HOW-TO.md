@@ -14,7 +14,7 @@ One-time setup. Run these in order when starting a new project.
    git clone https://github.com/modryn-studio/nextjs_boilerplate [YOUR_PROJECT_NAME]
    cd [YOUR_PROJECT_NAME]
    ```
-3. Reset git history, wire to the new repo, and create the `dev` branch — one script, run once:
+3. Reset git history and wire to the new repo — one script, run once:
    ```powershell
    $repo = Read-Host "Repo name (e.g. my-project)"
    Remove-Item -Recurse -Force .git
@@ -23,10 +23,8 @@ One-time setup. Run these in order when starting a new project.
    git commit -m "init"
    git remote add origin "https://github.com/modryn-studio/$repo"
    git push -u origin main
-   git checkout -b dev
-   git push -u origin dev
    ```
-   From this point: never commit directly to `main`. Build on `dev`. Cut short-lived `feat/*` branches from `dev` for larger features if you want isolation. When `dev` is stable and shippable, open a PR to merge into `main` (= a release).
+   From this point: never commit directly to `main` — it stays the clean scaffold. Create a new branch named for what you're building (`git checkout -b <slug>`) and build there. Cut short-lived `feat/*` branches off it for larger features if you want isolation. Only start a genuinely new branch if the direction changes shape; same-shape iteration happens in git worktrees off the existing branch.
 4. Run `npm install`
 5. **Source docs** — `context.md` and `brand.md` are pre-written from /new-idea or /clone-and-own in modryn-hq. Drop them into the project root, replacing the stubs.
 6. Type `/setup` — reads source docs, fills in `copilot-instructions.md` + `src/config/site.ts`. Start the dev server (`Ctrl+Shift+B`) and check the basic landing page in your browser. **If `/setup` blocks on a TBD:** return to modryn-hq, run `/threads design` (Jobs → Rams → Ogilvy) to resolve the open item, update `brand.md` with the approved value, then re-run `/setup`.
