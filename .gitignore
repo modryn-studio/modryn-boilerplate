@@ -23,9 +23,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# dev log (tee output from dev server)
-dev.log
-
 # IDE
 .idea/
 *.swp
@@ -41,3 +38,9 @@ Thumbs.db
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# git worktrees (nested under .claude/worktrees/ — must never be tracked as gitlinks)
+.claude/worktrees/
+
+# stray logs (dev-server / install output redirected to a file)
+*.log
