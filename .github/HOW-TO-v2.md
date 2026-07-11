@@ -139,6 +139,6 @@ Open `http://localhost:3000` — you should see the project name heading on a da
 ## Notes
 
 - `.next/` is gitignored — it's a Turbopack build cache, project-local, never committed
-- Two dev servers on the same port will cause a Turbopack panic. Always kill existing node processes before restarting
+- Two dev servers on the same port will cause a bundler panic. Always kill existing node processes before restarting
 - `ANTHROPIC_API_KEY` is required by `env.ts` and throws on first request to any AI route if missing. Set it before trying any genUI work
 - `NEXT_PUBLIC_SITE_URL` can stay blank locally — `site.ts` falls back to `http://localhost:3000`
