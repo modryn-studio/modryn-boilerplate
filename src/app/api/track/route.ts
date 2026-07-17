@@ -15,7 +15,7 @@ const ALLOWED_EVENTS = new Set<string>([
 
 const bodySchema = z.object({
   name: z.string(),
-  properties: z.record(z.unknown()).optional(),
+  properties: z.record(z.string(), z.unknown()).optional(),
   sessionId: z.string().optional(),
 });
 
