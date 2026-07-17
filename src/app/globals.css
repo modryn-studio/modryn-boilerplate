@@ -1,19 +1,67 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
-/* Neutral dark starter palette — recolor per project before polishing UI
-   (the frontend-design skill is the right tool for that pass).
+/* Modryn design tokens — the whole system, not just colors. Recolor + choose a real
+   display font per project BEFORE building components (that's the anti-slop lever;
+   see modryn-hq/playbooks/design-system.md, or run /design-check lock).
    Tailwind v4: tokens live in @theme (NOT :root) so utilities like bg-surface,
-   text-muted, border-border are generated. Never add a tailwind.config file. */
+   text-muted, text-h1, rounded-md are generated. Never add a tailwind.config file.
+   Color roles are plain (non-inline) @theme values — that's what makes them real,
+   overridable custom properties so .dark below can swap them at runtime. */
 @theme {
-  --color-bg: #0a0a0a;                /* page background */
-  --color-surface: #161616;           /* panels, cards */
-  --color-border: #262626;            /* subtle borders, dividers */
-  --color-text: #ededed;              /* body text */
-  --color-muted: #8a8a8a;             /* secondary text, placeholders */
-  --color-accent: #3b82f6;            /* brand / primary CTA — TODO: replace */
-  --color-accent-foreground: #ffffff; /* text on an accent background */
-  --font-heading: system-ui;
+  /* Color roles — light defaults; .dark overrides below */
+  --color-bg: #fafafa;                /* page background */
+  --color-surface: #f4f4f5;           /* panels, cards */
+  --color-elevated: #ffffff;          /* raised cards, popovers, modals */
+  --color-border: #e4e4e7;            /* subtle borders, dividers */
+  --color-text: #18181b;              /* body text */
+  --color-muted: #71717a;             /* secondary text, placeholders */
+  --color-accent: #3b82f6;            /* brand / primary CTA — TODO: replace with intent, never violet */
+  --color-accent-foreground: #ffffff; /* text on an accent background — verify AA */
+  --color-success: #16a34a;
+  --color-warning: #d97706;
+  --color-danger: #dc2626;
+
+  /* Type scale — use text-h1, text-body, etc. NEVER hand-pick text-3xl/text-sm per component. */
+  --text-display: 3rem;     --text-display--line-height: 3.25rem; --text-display--font-weight: 700; --text-display--letter-spacing: -0.02em;
+  --text-h1: 2.25rem;       --text-h1--line-height: 2.5rem;       --text-h1--font-weight: 700; --text-h1--letter-spacing: -0.02em;
+  --text-h2: 1.75rem;       --text-h2--line-height: 2rem;         --text-h2--font-weight: 600; --text-h2--letter-spacing: -0.01em;
+  --text-h3: 1.375rem;      --text-h3--line-height: 1.75rem;      --text-h3--font-weight: 600;
+  --text-body-lg: 1.125rem; --text-body-lg--line-height: 1.75rem; --text-body-lg--font-weight: 400;
+  --text-body: 1rem;        --text-body--line-height: 1.5rem;     --text-body--font-weight: 400;
+  --text-small: 0.875rem;   --text-small--line-height: 1.25rem;   --text-small--font-weight: 400;
+  --text-caption: 0.75rem;  --text-caption--line-height: 1rem;    --text-caption--font-weight: 500; --text-caption--letter-spacing: 0.01em;
+
+  /* Radius — default md; rounded-full only for avatars/toggles, never pill-everything */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+
+  /* Motion — no spring, no bounce; durations 120–250ms */
+  --ease-out: cubic-bezier(0.2, 0, 0, 1);
+
+  --font-heading: system-ui;          /* TODO: choose a real display face — shipping system-ui is a reject */
 }
+
+/* Dark mode overrides — same custom property names, different values. Toggled via
+   ThemeProvider (src/components/theme-provider.tsx) adding/removing .dark on <html>. */
+.dark {
+  --color-bg: #0a0a0a;
+  --color-surface: #161616;
+  --color-elevated: #1e1e1e;
+  --color-border: #2a2a2a;
+  --color-text: #ededed;
+  --color-muted: #8a8a8a;
+  --color-accent: #3b82f6;
+  --color-accent-foreground: #ffffff;
+  --color-success: #4ade80;
+  --color-warning: #fbbf24;
+  --color-danger: #f87171;
+}
+
+/* Spacing: no new tokens — use Tailwind's scale but ONLY the allowed steps
+   (4 8 12 16 24 32 40 48 64 80 96 → 1 2 3 4 6 8 10 12 16 20 24). Never arbitrary [13px],
+   never odd/half steps (5 7 9 11 3.5). 8 is the base rhythm; 4 only for tight internals. */
 
 @layer base {
   html {

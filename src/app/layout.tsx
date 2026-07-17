@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { site } from '@/config/site';
+import { ThemeProvider } from '@/components/theme-provider';
+import { ThemeToggle } from '@/components/ui/theme-toggle';
 import './globals.css';
 
 export const viewport: Viewport = {
@@ -18,8 +20,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className="font-heading antialiased">{children}</body>
+    // suppressHydrationWarning: ThemeProvider's blocking script sets the .dark class
+    // before hydration, which intentionally differs from the server-rendered markup.
+    <html lang="en" suppressHydrationWarning>
+      <body className="font-heading antialiased">
+        <ThemeProvider>
+          <ThemeToggle className="fixed top-4 right-4 z-50" />
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

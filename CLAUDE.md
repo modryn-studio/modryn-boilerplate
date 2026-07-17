@@ -15,11 +15,11 @@ How we build — distilled from how Anthropic and top operators use Claude Code.
 - **Plan-annotate loop:** ask for a plan with zero implementation → mark up every wrong thing → "address notes, don't implement yet" → repeat to convergence → *then* build.
 - **Parallel or variant work uses git worktrees / branch-per-variant** so concurrent sessions never collide on the same files.
 - **Read live competitors.** Drive real products with the `chrome-devtools-mcp` CLI (installed globally on this machine) per `modryn-hq/playbooks/read-live-competitor.md` — for recon and to pull real UI to clone / remix / reference. Landing/pricing pages need no auth; Luke logs in by hand for the app itself.
-- **UI/UX bar — no vibe-code default.** Read `modryn-hq/playbooks/ui-ux-standards.md` before designing any surface. Hard bans: framework-default font as brand (Geist/Inter), violet gradient CTAs, gradient text / glow blobs / glassmorphism, pill-everything, emoji as UI. If it looks like default LLM output, it's rejected.
+- **UI/UX bar — no vibe-code default.** Build *to* `modryn-hq/playbooks/design-system.md` (the positive spec: tokens, type scale, spacing, states, layout, Laws of UX) — lock the token system before components, run `/design-check` before any UI is "done". Never ship (`ui-ux-standards.md`): framework-default font as brand (Geist/Inter/system-ui), violet gradient CTAs, gradient text / glow blobs / glassmorphism, pill-everything, emoji as UI. If it looks like default LLM output, it's rejected.
 - **Model routing:** Sonnet for the grind, Opus for judgment (scoping, review, big decisions); reserve Fable for rare long-horizon autonomous work.
 - **Full doctrine:** `modryn-hq/playbooks/build-process.md` + `year-five-doctrine.md` (build the five-years-out version today; the moat is depth a cloner can't replicate in a week).
 - **Document lean.** A disposable prototype needs only: this CLAUDE.md (thesis / state / pointers, kept current like code), the code (commented design tokens = self-documenting craft), and the playbooks it points to. Don't fill `context.md` / `brand.md` during throwaway iteration — they earn their place at the real-build phase.
-- **Both modes, always.** Every prototype ships a dark and a light mode with a persisting toggle (default to the brand fit). See `modryn-hq/playbooks/ui-ux-standards.md`.
+- **Both modes, always.** Every prototype ships light + dark with a persisting toggle out of the box — `ThemeProvider` + `ThemeToggle` are wired into the root layout (no `next-themes`; it's unmaintained with open React 19/Next 16 bugs). Just recolor the `.dark` override block in `globals.css` per brand.
 
 ---
 
@@ -28,7 +28,7 @@ How we build — distilled from how Anthropic and top operators use Claude Code.
 1. Copy this folder to the new project location (or `git clone` then reset history).
 2. Rename in `package.json` (`name`) and `README.md`.
 3. Fill in `src/config/site.ts` (name, description).
-4. Recolor `src/app/globals.css` `@theme` tokens — or run the `frontend-design` skill for a real aesthetic pass.
+4. Lock the design system: recolor `src/app/globals.css` `@theme` tokens + choose a real display font, then build the `ui/` primitives — run `/design-check lock` to do this against `design-system.md` before building screens.
 5. `npm install`, then `npm run dev`.
 6. Update this `CLAUDE.md` for the specific project (or point it at wherever that project's context lives).
 

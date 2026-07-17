@@ -1,7 +1,6 @@
 ---
 name: update
-description: Re-reads context.md and brand.md and cascades any changes into copilot-instructions.md, site.ts, and next.config.ts
-agent: agent
+description: "Re-reads context.md and brand.md and cascades any changes into CLAUDE.md, site.ts, next.config.ts, README.md, docs/guide.md, and docs/architecture.md. Run this any time context.md or brand.md is edited."
 ---
 
 `context.md` and `brand.md` are the source of truth for this project. This command cascades any edits from those files into the derived files that `/setup` originally populated.
@@ -19,7 +18,7 @@ Read both source files:
 
 ---
 
-## Step 2: Cascade into `copilot-instructions.md`
+## Step 2: Cascade into `CLAUDE.md`
 
 Update the following sections based on what changed. Do not touch sections that haven't changed. Do not touch `## README Standard`, `## API Route Logging`, `## Analytics`, `## Dev Server`, `## Code Style`, or `## Core Rules` — those are permanent.
 
@@ -72,22 +71,23 @@ If both are already accurate, leave the file alone.
 
 ## Step 6: Update `docs/guide.md`
 
-Create the `docs/` directory if it doesn't exist. Generate or update `docs/guide.md` based on the **actual current state of the codebase** — not the source docs.
+Create the `docs/` directory if it doesn't exist. Generate or update `docs/guide.md` based on the **actual current state of the codebase** — not the source docs, not what's planned, not what a landing/marketing page claims the product will do.
 
 **Read these files:**
 
-- `src/app/page.tsx` — what sections are on the page
-- `src/components/` — any interactive components (forms, widgets)
+- The actual in-product routes and components (the working application a signed-up user interacts with — e.g. `src/app/app/**` or equivalent). Not the marketing/landing page at `/` — that's sales copy, not the product, and does not belong in this guide.
+- `src/components/` — any interactive components (forms, widgets) that are part of the real, working product
 
 **Write the guide with these rules:**
 
+- **Describe only what is currently built and functioning — never what's planned, possible, or "coming soon."** If a route, screen, or component renders fixed/example/placeholder content instead of real computed data, say so as a plain fact about current behavior (e.g. "shows fixed example content") — do not frame it as a roadmap item, do not explain what it will eventually do.
+- **Do not include the marketing/landing page.** This guide documents the product, not the pitch for it.
 - Written for a non-technical user who has never seen the app. Plain language. No component names, no API details, no code.
 - One sentence of context per section, then numbered steps for any action that isn't obvious.
-- If a feature isn't live yet, say so in one line. Don't explain why.
-- End with a status table: what works ✅, what's built but not wired ⏳, what's missing ❌.
+- End with a short status table of what's actually live right now. Do not pad it with unbuilt/planned features — if something doesn't exist yet, it doesn't belong in this document at all, not even as a ❌ row.
 - Scannable over readable — short sections, no dense paragraphs, no walls of text. A user should be able to find what they need in 10 seconds.
 
-If `docs/guide.md` already exists, update it to reflect current state. Remove anything that's no longer true.
+If `docs/guide.md` already exists, replace it to reflect current state exactly. Remove anything that's no longer true, and remove anything describing planned or landing-page-only content even if it was there before.
 
 ---
 
@@ -108,7 +108,7 @@ If `docs/architecture.md` does not exist yet, create it with only sections that 
 
 **Rules:**
 
-- `architecture.md` documents technical plumbing — AI models, data pipelines, external service integrations, DB schema, error recovery. Stack, conventions, and routes belong in `copilot-instructions.md` — do not duplicate them here.
+- `architecture.md` documents technical plumbing — AI models, data pipelines, external service integrations, DB schema, error recovery. Stack, conventions, and routes belong in `CLAUDE.md` — do not duplicate them here.
 - Keep it lean — one or two sentences per section max, tables where they help
 - Do not add commentary or reasoning — just facts about how it is built
 - Do not remove sections that are still accurate
